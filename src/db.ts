@@ -1,4 +1,5 @@
 import { Pool, PoolConfig } from "pg";
+import { encryptCard, hashPassword } from "./secure";
 
 const config: PoolConfig = {
   connectionString: process.env.DATABASE_URL,
@@ -69,6 +70,12 @@ export async function getUser(username: string): Promise<User | null> {
   return user;
 }
 
+export async function listUsers(): Promise<User[]> {
+  const result = await pool.query("SELECT * FROM users ORDER BY id");
+  const users: User[] = result.rows;
+  return users;
+}
+
 export async function insertComment(author: string, content: string): Promise<void> {
   await pool.query("INSERT INTO comments (author, content) VALUES ($1, $2)", [author, content]);
 }
@@ -86,4 +93,5 @@ export async function deleteAllComments(): Promise<void> {
 export async function seedUsers(): Promise<void> {
   await insertUser("ana", "ana123", "4111111111111111", false);
   await insertUser("marko", "marko123", "5555555555554444", false);
+  await insertUser("petra", hashPassword("petra123"), encryptCard("4000056655665556"), true);
 }

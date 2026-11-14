@@ -3,8 +3,10 @@ import express from "express";
 import { createTables, seedUsers } from "./db";
 import { handleSettings } from "./settings";
 import { handleHome } from "./routes/home";
-import { handleLoginForm, handleLogin, handleLogout } from "./routes/auth";
+import { handleLoginForm, handleLogin, handleLogout, handleRegisterForm, handleRegister } from "./routes/auth";
 import { handleComments, handleAddComment, handleDeleteComments } from "./routes/comments";
+import { handleProfile } from "./routes/profile";
+import { handleDatabase } from "./routes/database";
 import { refreshSessionCookie } from "./session";
 
 const app = express();
@@ -21,6 +23,10 @@ app.post("/logout", handleLogout);
 app.get("/comments", handleComments);
 app.post("/comments", handleAddComment);
 app.post("/comments/delete", handleDeleteComments);
+app.get("/register", handleRegisterForm);
+app.post("/register", handleRegister);
+app.get("/profile", handleProfile);
+app.get("/database", handleDatabase);
 
 function handleListen(): void {
   console.log(`Server sluša na http://localhost:${PORT}`);

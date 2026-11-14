@@ -12,7 +12,7 @@ export function escapeHtml(text: string): string {
 
 function renderUser(username: string | undefined): string {
   if (username === undefined) {
-    return `<a href="/login">Prijava</a>`;
+    return `<a href="/login">Prijava</a> <a href="/register">Registracija</a>`;
   }
   return `
     Prijavljen kao <strong>${escapeHtml(username)}</strong>
@@ -57,11 +57,14 @@ export function renderPage(title: string, body: string, username: string | undef
     .settings label { display: block; margin-bottom: 4px; }
     .vulnerable { color: #b00020; font-weight: bold; }
     .safe { color: #1b7f3b; font-weight: bold; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 4px 8px; text-align: left; vertical-align: top; }
+    td { font-family: monospace; word-break: break-all; }
   </style>
 </head>
 <body>
   <nav>
-    <span><a href="/">Početna</a> <a href="/comments">Komentari</a></span>
+    <span><a href="/">Početna</a> <a href="/comments">Komentari</a> <a href="/profile">Profil</a> <a href="/database">Pregled baze</a></span>
     <span>${renderUser(username)}</span>
   </nav>
   <form class="settings" method="post" action="/settings">
