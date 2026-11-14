@@ -1,4 +1,6 @@
+import "dotenv/config";
 import express, { Request, Response } from "express";
+import { createTables, seedUsers } from "./db";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -13,4 +15,11 @@ function handleListen(): void {
 
 app.get("/", handleHome);
 
-app.listen(PORT, handleListen);
+async function start(): Promise<void> {
+  await createTables();
+  await seedUsers();
+  console.log("Tablice users i comments spremne, testni korisnici upisani");
+  app.listen(PORT, handleListen);
+}
+
+start();
