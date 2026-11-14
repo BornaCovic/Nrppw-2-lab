@@ -1,19 +1,21 @@
 import "dotenv/config";
-import express, { Request, Response } from "express";
+import express from "express";
 import { createTables, seedUsers } from "./db";
+import { handleSettings } from "./settings";
+import { handleHome } from "./routes/home";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-function handleHome(req: Request, res: Response): void {
-  res.send("NWEB 2LAB: XSS i nesigurna pohrana osjetljivih podataka. Server radi.");
-}
+// Čita podatke iz HTML formi (application/x-www-form-urlencoded) u req.body.
+app.use(express.urlencoded());
+
+app.get("/", handleHome);
+app.post("/settings", handleSettings);
 
 function handleListen(): void {
   console.log(`Server sluša na http://localhost:${PORT}`);
 }
-
-app.get("/", handleHome);
 
 async function start(): Promise<void> {
   await createTables();
