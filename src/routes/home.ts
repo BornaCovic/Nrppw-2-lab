@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { renderPage } from "../layout";
+import { currentUser } from "../session";
 
 export function handleHome(req: Request, res: Response): void {
   const body = `
@@ -13,5 +14,5 @@ export function handleHome(req: Request, res: Response): void {
       Stanje vrijedi za sve posjetitelje, a nakon restarta servera obje su ranjivosti ponovno uključene.
     </p>
   `;
-  res.send(renderPage("Sigurnosne ranjivosti web-aplikacija", body));
+  res.send(renderPage("Sigurnosne ranjivosti web-aplikacija", body, currentUser(req)));
 }

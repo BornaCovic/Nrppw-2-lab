@@ -63,6 +63,15 @@ export async function insertUser(
   return result.rowCount === 1;
 }
 
+export async function getUser(username: string): Promise<User | null> {
+  const result = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
+  if (result.rows.length === 0) {
+    return null;
+  }
+  const user: User = result.rows[0];
+  return user;
+}
+
 export async function seedUsers(): Promise<void> {
   await insertUser("ana", "ana123", "4111111111111111", false);
   await insertUser("marko", "marko123", "5555555555554444", false);
