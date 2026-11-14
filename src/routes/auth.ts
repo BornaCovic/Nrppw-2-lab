@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getUser } from "../db";
 import { renderPage } from "../layout";
-import { createSession, currentUser, deleteSession, readCookie } from "../session";
+import { createSession, currentUser, deleteSession, readCookie, setSessionCookie } from "../session";
 
 function renderLoginForm(error: string): string {
   return `
@@ -31,7 +31,7 @@ export async function handleLogin(req: Request, res: Response): Promise<void> {
   }
 
   const sessionId = createSession(user.username);
-  res.cookie("session", sessionId, { httpOnly: true, sameSite: "lax" });
+  setSessionCookie(res, sessionId);
   res.redirect("/");
 }
 

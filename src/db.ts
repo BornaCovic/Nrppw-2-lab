@@ -10,8 +10,6 @@ if (process.env.DATABASE_SSL === "true") {
 
 const pool = new Pool(config);
 
-// secure = false: password i card_number su čisti tekst
-// secure = true:  password je scrypt hash, card_number je AES-GCM šifrat
 export interface User {
   id: number;
   username: string;
@@ -47,7 +45,6 @@ export async function createTables(): Promise<void> {
   `);
 }
 
-// Vraća false ako korisničko ime već postoji.
 export async function insertUser(
   username: string,
   password: string,
@@ -70,6 +67,20 @@ export async function getUser(username: string): Promise<User | null> {
   }
   const user: User = result.rows[0];
   return user;
+}
+
+export async function insertComment(author: string, content: string): Promise<void> {
+  await pool.query("INSERT INTO comments (author, content) VALUES ($1, $2)", [author, content]);
+}
+
+export async function listComments(): Promise<Comment[]> {
+  const result = await pool.query("SELECT * FROM comments ORDER BY created_at");
+  const comments: Comment[] = result.rows;
+  return comments;
+}
+
+export async function deleteAllComments(): Promise<void> {
+  await pool.query("DELETE FROM comments");
 }
 
 export async function seedUsers(): Promise<void> {

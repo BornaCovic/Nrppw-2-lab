@@ -47,6 +47,12 @@ export function renderPage(title: string, body: string, username: string | undef
     nav a { margin-right: 12px; }
     .inline { display: inline; }
     .error { color: #b00020; }
+    .hint { border-left: 4px solid #999; padding: 4px 12px; margin: 16px 0; background: #fafafa; }
+    .hint pre { background: #eee; padding: 4px 8px; overflow-x: auto; }
+    .comment { border-bottom: 1px solid #ddd; padding: 8px 0; }
+    .comment .meta { color: #555; font-size: 0.9em; }
+    .comment .content { white-space: pre-wrap; }
+    textarea { width: 100%; box-sizing: border-box; }
     .settings { border: 1px solid #ccc; border-radius: 6px; padding: 8px 12px; margin: 16px 0; background: #f7f7f7; }
     .settings label { display: block; margin-bottom: 4px; }
     .vulnerable { color: #b00020; font-weight: bold; }
@@ -55,7 +61,7 @@ export function renderPage(title: string, body: string, username: string | undef
 </head>
 <body>
   <nav>
-    <span><a href="/">Početna</a></span>
+    <span><a href="/">Početna</a> <a href="/comments">Komentari</a></span>
     <span>${renderUser(username)}</span>
   </nav>
   <form class="settings" method="post" action="/settings">

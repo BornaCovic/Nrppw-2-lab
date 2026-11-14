@@ -4,18 +4,23 @@ import { createTables, seedUsers } from "./db";
 import { handleSettings } from "./settings";
 import { handleHome } from "./routes/home";
 import { handleLoginForm, handleLogin, handleLogout } from "./routes/auth";
+import { handleComments, handleAddComment, handleDeleteComments } from "./routes/comments";
+import { refreshSessionCookie } from "./session";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-// Čita podatke iz HTML formi (application/x-www-form-urlencoded) u req.body.
 app.use(express.urlencoded());
+app.use(refreshSessionCookie);
 
 app.get("/", handleHome);
 app.post("/settings", handleSettings);
 app.get("/login", handleLoginForm);
 app.post("/login", handleLogin);
 app.post("/logout", handleLogout);
+app.get("/comments", handleComments);
+app.post("/comments", handleAddComment);
+app.post("/comments/delete", handleDeleteComments);
 
 function handleListen(): void {
   console.log(`Server sluša na http://localhost:${PORT}`);
